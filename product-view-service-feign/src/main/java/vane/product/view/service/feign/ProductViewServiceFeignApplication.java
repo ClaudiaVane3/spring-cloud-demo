@@ -6,6 +6,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import brave.sampler.Sampler;
 import cn.hutool.core.net.NetUtil;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,6 +17,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.NumberUtil;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -57,5 +59,10 @@ public class ProductViewServiceFeignApplication {
     new SpringApplicationBuilder(ProductViewServiceFeignApplication.class)
         .properties("server.port=" + port)
         .run(args);
+  }
+
+  @Bean
+  public Sampler defaultSampler() {
+    return Sampler.ALWAYS_SAMPLE;
   }
 }
